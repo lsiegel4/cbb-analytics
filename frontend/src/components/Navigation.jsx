@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { searchPlayers, SEASONS } from '../data/mockData';
+import { searchPlayers, searchTeams, SEASONS } from '../data/mockData';
 
 // Court Vision Logo Mark
 function LogoMark() {
@@ -22,7 +22,9 @@ export default function Navigation({ currentPage, onNavigate, season, onSeasonCh
 
   useEffect(() => {
     if (searchQuery.length >= 2) {
-      setSearchResults(searchPlayers(searchQuery));
+      const players = searchPlayers(searchQuery).map(p => ({ ...p, _type: 'player' }));
+      const teams = searchTeams(searchQuery).map(t => ({ ...t, _type: 'team' }));
+      setSearchResults([...players, ...teams]);
       setSearchOpen(true);
     } else {
       setSearchResults([]);
@@ -43,7 +45,7 @@ export default function Navigation({ currentPage, onNavigate, season, onSeasonCh
   const navLinks = [
     { id: 'leaderboard', label: 'Leaderboard' },
     { id: 'compare',     label: 'Compare' },
-    { id: 'teams',       label: 'Teams',   disabled: true },
+    { id: 'teams',       label: 'Teams' },
     { id: 'glossary',    label: 'Glossary' },
   ];
 
@@ -197,7 +199,7 @@ export default function Navigation({ currentPage, onNavigate, season, onSeasonCh
                 className="input"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search players..."
+                placeholder="Search players or teams..."
                 style={{ paddingLeft: '32px', fontSize: '0.80rem', height: '34px' }}
               />
             </div>
@@ -216,11 +218,15 @@ export default function Navigation({ currentPage, onNavigate, season, onSeasonCh
                 boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
                 zIndex: 200,
               }}>
-                {searchResults.map(player => (
+                {searchResults.map(result => (
                   <button
-                    key={player.player_id}
+                    key={result._type === 'team' ? `team-${result.team_id}` : result.player_id}
                     onClick={() => {
-                      onNavigate('player', player.player_id);
+                      if (result._type === 'team') {
+                        onNavigate('team', result.team_id);
+                      } else {
+                        onNavigate('player', result.player_id);
+                      }
                       setSearchQuery('');
                       setSearchOpen(false);
                     }}
@@ -239,12 +245,23 @@ export default function Navigation({ currentPage, onNavigate, season, onSeasonCh
                     onMouseEnter={e => e.currentTarget.style.background = 'var(--bg-hover)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                   >
-                    <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontSize: '0.84rem', fontWeight: 500, color: 'var(--text-primary)' }}>
-                        {player.name}
-                      </div>
-                      <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '1px' }}>
-                        {player.team} · {player.conference}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', textAlign: 'left' }}>
+                      {result._type === 'team' && (
+                        <div style={{
+                          width: '8px', height: '8px', borderRadius: '50%',
+                          background: result.color, flexShrink: 0,
+                          border: '1px solid rgba(255,255,255,0.15)',
+                        }} />
+                      )}
+                      <div>
+                        <div style={{ fontSize: '0.84rem', fontWeight: 500, color: 'var(--text-primary)' }}>
+                          {result.name}
+                        </div>
+                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '1px' }}>
+                          {result._type === 'team'
+                            ? result.conference
+                            : `${result.team} · ${result.conference}`}
+                        </div>
                       </div>
                     </div>
                     <span style={{
@@ -252,12 +269,13 @@ export default function Navigation({ currentPage, onNavigate, season, onSeasonCh
                       fontWeight: 600,
                       padding: '2px 7px',
                       borderRadius: '100px',
-                      background: 'var(--bg-elevated)',
-                      color: 'var(--text-secondary)',
+                      background: result._type === 'team' ? `${result.color}22` : 'var(--bg-elevated)',
+                      color: result._type === 'team' ? result.color : 'var(--text-secondary)',
+                      border: result._type === 'team' ? `1px solid ${result.color}44` : 'none',
                       textTransform: 'uppercase',
                       letterSpacing: '0.06em',
                     }}>
-                      {player.position}
+                      {result._type === 'team' ? 'TEAM' : result.position}
                     </span>
                   </button>
                 ))}

@@ -120,33 +120,22 @@ export default function PlayerProfilePage({ playerId, season: globalSeason, onNa
   );
   const [gameLogSorting, setGameLogSorting] = useState([]);
 
-  if (!player) {
-    return (
-      <div className="page-content">
-        <div className="container">
-          <p style={{ color: 'var(--text-muted)' }}>Player not found.</p>
-        </div>
-      </div>
-    );
-  }
+  // Memoize all data arrays so TanStack Table always receives stable references.
+  // getGameLog / getSimilarPlayers return new arrays on every call, which would
+  // cause the table to recompute on every render and create a render loop.
+  const gameLog = useMemo(() => getGameLog(playerId, selectedSeason), [playerId, selectedSeason]);
+  const similarPlayers = useMemo(() => getSimilarPlayers(playerId, selectedSeason), [playerId, selectedSeason]);
 
-  const stats = player.stats[selectedSeason];
-  const gameLog = getGameLog(playerId, selectedSeason);
-  const similarPlayers = getSimilarPlayers(playerId, selectedSeason);
-
-  // Progression data for chart
-  const progressionData = availableSeasons.map(s => ({
+  // Progression data for chart — memoized to keep a stable reference.
+  // Use playerId (primitive) instead of the availableSeasons array so the dep
+  // list only contains stable primitives.
+  const progressionData = useMemo(() => availableSeasons.map(s => ({
     season: s.replace('20', "'"),
-    BPM:  player.stats[s]?.bpm  ?? null,
-    OBPM: player.stats[s]?.obpm ?? null,
-    DBPM: player.stats[s]?.dbpm ?? null,
-    PPG:  player.stats[s]?.ppg  ?? null,
-  }));
-
-  const fmtPct = v => v != null ? `${(v * 100).toFixed(1)}%` : '—';
-  const fmtDec = v => v != null ? v.toFixed(1) : '—';
-  const fmtBpm = v => v != null ? (v > 0 ? `+${v.toFixed(1)}` : v.toFixed(1)) : '—';
-  const fmtUsg = v => v != null ? `${v.toFixed(1)}%` : '—';
+    BPM:  player?.stats[s]?.bpm  ?? null,
+    OBPM: player?.stats[s]?.obpm ?? null,
+    DBPM: player?.stats[s]?.dbpm ?? null,
+    PPG:  player?.stats[s]?.ppg  ?? null,
+  })), [playerId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const glTable = useReactTable({
     data: gameLog,
@@ -158,6 +147,23 @@ export default function PlayerProfilePage({ playerId, season: globalSeason, onNa
     getPaginationRowModel: getPaginationRowModel(),
     initialState: { pagination: { pageSize: 10 } },
   });
+
+  if (!player) {
+    return (
+      <div className="page-content">
+        <div className="container">
+          <p style={{ color: 'var(--text-muted)' }}>Player not found.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const stats = player.stats[selectedSeason];
+
+  const fmtPct = v => v != null ? `${(v * 100).toFixed(1)}%` : '—';
+  const fmtDec = v => v != null ? v.toFixed(1) : '—';
+  const fmtBpm = v => v != null ? (v > 0 ? `+${v.toFixed(1)}` : v.toFixed(1)) : '—';
+  const fmtUsg = v => v != null ? `${v.toFixed(1)}%` : '—';
 
   const posClass = `pos-${player.position?.toLowerCase()}`;
 
@@ -317,16 +323,16 @@ export default function PlayerProfilePage({ playerId, season: globalSeason, onNa
               <div className="card">
                 <div className="section-label">Career Progression · BPM</div>
                 {progressionData.length > 1 ? (
-                  <ResponsiveContainer width="100%" height={220}>
+                  <ResponsiveContainer key={selectedSeason} width="100%" height={220}>
                     <LineChart data={progressionData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" vertical={false} />
                       <XAxis dataKey="season" tick={{ fontSize: 11, fill: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fontSize: 11, fill: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }} axisLine={false} tickLine={false} />
                       <ReferenceLine y={0} stroke="var(--border)" strokeDasharray="4 4" />
                       <Tooltip content={<CustomTooltip />} />
-                      <Line type="monotone" dataKey="BPM" stroke="var(--accent)" strokeWidth={2} dot={{ fill: 'var(--accent)', r: 4 }} connectNulls />
-                      <Line type="monotone" dataKey="OBPM" stroke="var(--positive)" strokeWidth={1.5} strokeDasharray="4 4" dot={false} connectNulls />
-                      <Line type="monotone" dataKey="DBPM" stroke="var(--teal)" strokeWidth={1.5} strokeDasharray="4 4" dot={false} connectNulls />
+                      <Line type="monotone" dataKey="BPM" stroke="var(--accent)" strokeWidth={2} dot={{ fill: 'var(--accent)', r: 4 }} connectNulls isAnimationActive={false} />
+                      <Line type="monotone" dataKey="OBPM" stroke="var(--positive)" strokeWidth={1.5} strokeDasharray="4 4" dot={false} connectNulls isAnimationActive={false} />
+                      <Line type="monotone" dataKey="DBPM" stroke="var(--teal)" strokeWidth={1.5} strokeDasharray="4 4" dot={false} connectNulls isAnimationActive={false} />
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (

@@ -5,6 +5,8 @@ import LeaderboardPage from './pages/LeaderboardPage';
 import PlayerProfilePage from './pages/PlayerProfilePage';
 import ComparisonPage from './pages/ComparisonPage';
 import GlossaryPage from './pages/GlossaryPage';
+import TeamsPage from './pages/TeamsPage';
+import TeamProfilePage from './pages/TeamProfilePage';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('leaderboard');
@@ -25,6 +27,10 @@ export default function App() {
         return <PlayerProfilePage playerId={pageData} season={season} onNavigate={navigate} />;
       case 'compare':
         return <ComparisonPage season={season} onNavigate={navigate} />;
+      case 'teams':
+        return <TeamsPage season={season} onNavigate={navigate} />;
+      case 'team':
+        return <TeamProfilePage teamId={pageData} season={season} onNavigate={navigate} />;
       case 'glossary':
         return <GlossaryPage />;
       default:

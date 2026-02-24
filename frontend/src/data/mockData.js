@@ -289,3 +289,510 @@ export function searchPlayers(query) {
     .filter(p => p.name.toLowerCase().includes(q) || p.team.toLowerCase().includes(q))
     .slice(0, 8);
 }
+
+// ─── Team Data ───────────────────────────────────────────────────────────────
+export const TEAM_PROFILES = {
+  'uconn': {
+    team_id: 'uconn',
+    name: 'UConn',
+    abbreviation: 'UCONN',
+    conference: 'Big East',
+    color: '#000E2F',
+    seasons: ['2022-23', '2023-24'],
+    stats: {
+      '2023-24': {
+        wins: 37, losses: 3, conf_wins: 17, conf_losses: 3,
+        NET: 1, sos_rank: 15,
+        quad1: { w: 16, l: 3 }, quad2: { w: 11, l: 0 }, quad3: { w: 6, l: 0 }, quad4: { w: 4, l: 0 },
+        ortg: 121.8, drtg: 91.4, net_rtg: 30.4,
+        efg_pct: 0.565, tov_pct: 13.8, orb_pct: 34.2, ftr: 0.284,
+        opp_efg_pct: 0.422, opp_tov_pct: 19.6, drb_pct: 74.8, opp_ftr: 0.248,
+        pace: 68.2,
+      },
+      '2022-23': {
+        wins: 31, losses: 8, conf_wins: 15, conf_losses: 5,
+        NET: 4, sos_rank: 22,
+        quad1: { w: 10, l: 7 }, quad2: { w: 11, l: 1 }, quad3: { w: 6, l: 0 }, quad4: { w: 4, l: 0 },
+        ortg: 117.4, drtg: 94.8, net_rtg: 22.6,
+        efg_pct: 0.541, tov_pct: 14.4, orb_pct: 31.8, ftr: 0.298,
+        opp_efg_pct: 0.444, opp_tov_pct: 18.4, drb_pct: 73.2, opp_ftr: 0.268,
+        pace: 67.8,
+      },
+    },
+  },
+  'purdue': {
+    team_id: 'purdue',
+    name: 'Purdue',
+    abbreviation: 'PUR',
+    conference: 'Big Ten',
+    color: '#CEB888',
+    seasons: ['2022-23', '2023-24'],
+    stats: {
+      '2023-24': {
+        wins: 34, losses: 5, conf_wins: 15, conf_losses: 5,
+        NET: 2, sos_rank: 18,
+        quad1: { w: 12, l: 4 }, quad2: { w: 11, l: 1 }, quad3: { w: 7, l: 0 }, quad4: { w: 4, l: 0 },
+        ortg: 119.4, drtg: 94.8, net_rtg: 24.6,
+        efg_pct: 0.558, tov_pct: 14.4, orb_pct: 32.6, ftr: 0.314,
+        opp_efg_pct: 0.444, opp_tov_pct: 17.2, drb_pct: 72.4, opp_ftr: 0.262,
+        pace: 66.8,
+      },
+      '2022-23': {
+        wins: 29, losses: 6, conf_wins: 14, conf_losses: 6,
+        NET: 3, sos_rank: 14,
+        quad1: { w: 10, l: 5 }, quad2: { w: 9, l: 1 }, quad3: { w: 7, l: 0 }, quad4: { w: 3, l: 0 },
+        ortg: 116.8, drtg: 97.2, net_rtg: 19.6,
+        efg_pct: 0.544, tov_pct: 15.2, orb_pct: 30.8, ftr: 0.322,
+        opp_efg_pct: 0.452, opp_tov_pct: 16.4, drb_pct: 70.8, opp_ftr: 0.274,
+        pace: 67.2,
+      },
+    },
+  },
+  'houston': {
+    team_id: 'houston',
+    name: 'Houston',
+    abbreviation: 'HOU',
+    conference: 'Big 12',
+    color: '#C8102E',
+    seasons: ['2022-23', '2023-24'],
+    stats: {
+      '2023-24': {
+        wins: 32, losses: 5, conf_wins: 15, conf_losses: 4,
+        NET: 3, sos_rank: 8,
+        quad1: { w: 14, l: 4 }, quad2: { w: 10, l: 1 }, quad3: { w: 5, l: 0 }, quad4: { w: 3, l: 0 },
+        ortg: 114.8, drtg: 91.2, net_rtg: 23.6,
+        efg_pct: 0.528, tov_pct: 14.8, orb_pct: 36.4, ftr: 0.358,
+        opp_efg_pct: 0.432, opp_tov_pct: 20.2, drb_pct: 76.2, opp_ftr: 0.262,
+        pace: 64.4,
+      },
+      '2022-23': {
+        wins: 33, losses: 4, conf_wins: 14, conf_losses: 4,
+        NET: 1, sos_rank: 6,
+        quad1: { w: 14, l: 3 }, quad2: { w: 11, l: 0 }, quad3: { w: 5, l: 1 }, quad4: { w: 3, l: 0 },
+        ortg: 112.8, drtg: 88.4, net_rtg: 24.4,
+        efg_pct: 0.514, tov_pct: 14.4, orb_pct: 38.2, ftr: 0.374,
+        opp_efg_pct: 0.424, opp_tov_pct: 21.4, drb_pct: 78.4, opp_ftr: 0.248,
+        pace: 63.8,
+      },
+    },
+  },
+  'duke': {
+    team_id: 'duke',
+    name: 'Duke',
+    abbreviation: 'DUKE',
+    conference: 'ACC',
+    color: '#003087',
+    seasons: ['2022-23', '2023-24', '2024-25'],
+    stats: {
+      '2024-25': {
+        wins: 22, losses: 7, conf_wins: 13, conf_losses: 5,
+        NET: 4, sos_rank: 6,
+        quad1: { w: 10, l: 6 }, quad2: { w: 7, l: 1 }, quad3: { w: 4, l: 0 }, quad4: { w: 1, l: 0 },
+        ortg: 120.4, drtg: 93.8, net_rtg: 26.6,
+        efg_pct: 0.561, tov_pct: 13.4, orb_pct: 30.8, ftr: 0.292,
+        opp_efg_pct: 0.438, opp_tov_pct: 18.8, drb_pct: 73.4, opp_ftr: 0.254,
+        pace: 70.4,
+      },
+      '2023-24': {
+        wins: 27, losses: 9, conf_wins: 14, conf_losses: 6,
+        NET: 8, sos_rank: 12,
+        quad1: { w: 10, l: 8 }, quad2: { w: 8, l: 1 }, quad3: { w: 7, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 118.4, drtg: 97.2, net_rtg: 21.2,
+        efg_pct: 0.548, tov_pct: 14.8, orb_pct: 28.4, ftr: 0.274,
+        opp_efg_pct: 0.454, opp_tov_pct: 17.4, drb_pct: 70.8, opp_ftr: 0.268,
+        pace: 69.8,
+      },
+      '2022-23': {
+        wins: 27, losses: 9, conf_wins: 13, conf_losses: 7,
+        NET: 11, sos_rank: 10,
+        quad1: { w: 10, l: 8 }, quad2: { w: 8, l: 1 }, quad3: { w: 6, l: 0 }, quad4: { w: 3, l: 0 },
+        ortg: 115.8, drtg: 99.4, net_rtg: 16.4,
+        efg_pct: 0.528, tov_pct: 15.4, orb_pct: 26.8, ftr: 0.286,
+        opp_efg_pct: 0.462, opp_tov_pct: 16.8, drb_pct: 68.4, opp_ftr: 0.278,
+        pace: 71.2,
+      },
+    },
+  },
+  'tennessee': {
+    team_id: 'tennessee',
+    name: 'Tennessee',
+    abbreviation: 'TENN',
+    conference: 'SEC',
+    color: '#FF8200',
+    seasons: ['2022-23', '2023-24'],
+    stats: {
+      '2023-24': {
+        wins: 27, losses: 8, conf_wins: 14, conf_losses: 4,
+        NET: 5, sos_rank: 3,
+        quad1: { w: 12, l: 7 }, quad2: { w: 8, l: 1 }, quad3: { w: 5, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 113.8, drtg: 90.4, net_rtg: 23.4,
+        efg_pct: 0.514, tov_pct: 13.2, orb_pct: 32.8, ftr: 0.368,
+        opp_efg_pct: 0.438, opp_tov_pct: 19.8, drb_pct: 75.4, opp_ftr: 0.244,
+        pace: 65.8,
+      },
+      '2022-23': {
+        wins: 25, losses: 11, conf_wins: 13, conf_losses: 5,
+        NET: 7, sos_rank: 2,
+        quad1: { w: 11, l: 10 }, quad2: { w: 8, l: 1 }, quad3: { w: 4, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 110.4, drtg: 92.8, net_rtg: 17.6,
+        efg_pct: 0.498, tov_pct: 13.8, orb_pct: 34.2, ftr: 0.382,
+        opp_efg_pct: 0.448, opp_tov_pct: 19.2, drb_pct: 74.2, opp_ftr: 0.252,
+        pace: 66.2,
+      },
+    },
+  },
+  'iowa-state': {
+    team_id: 'iowa-state',
+    name: 'Iowa State',
+    abbreviation: 'ISU',
+    conference: 'Big 12',
+    color: '#C8102E',
+    seasons: ['2022-23', '2023-24'],
+    stats: {
+      '2023-24': {
+        wins: 29, losses: 8, conf_wins: 13, conf_losses: 6,
+        NET: 6, sos_rank: 7,
+        quad1: { w: 11, l: 7 }, quad2: { w: 10, l: 1 }, quad3: { w: 6, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 116.4, drtg: 95.8, net_rtg: 20.6,
+        efg_pct: 0.534, tov_pct: 15.4, orb_pct: 29.6, ftr: 0.304,
+        opp_efg_pct: 0.448, opp_tov_pct: 18.2, drb_pct: 71.8, opp_ftr: 0.266,
+        pace: 68.8,
+      },
+      '2022-23': {
+        wins: 19, losses: 14, conf_wins: 9, conf_losses: 9,
+        NET: 28, sos_rank: 9,
+        quad1: { w: 5, l: 12 }, quad2: { w: 6, l: 2 }, quad3: { w: 5, l: 0 }, quad4: { w: 3, l: 0 },
+        ortg: 111.4, drtg: 100.8, net_rtg: 10.6,
+        efg_pct: 0.508, tov_pct: 16.8, orb_pct: 27.8, ftr: 0.318,
+        opp_efg_pct: 0.468, opp_tov_pct: 17.2, drb_pct: 69.2, opp_ftr: 0.284,
+        pace: 69.2,
+      },
+    },
+  },
+  'arizona': {
+    team_id: 'arizona',
+    name: 'Arizona',
+    abbreviation: 'ARIZ',
+    conference: 'Pac-12',
+    color: '#AB0520',
+    seasons: ['2022-23', '2023-24'],
+    stats: {
+      '2023-24': {
+        wins: 27, losses: 9, conf_wins: 14, conf_losses: 6,
+        NET: 4, sos_rank: 10,
+        quad1: { w: 11, l: 8 }, quad2: { w: 8, l: 1 }, quad3: { w: 6, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 120.4, drtg: 97.6, net_rtg: 22.8,
+        efg_pct: 0.558, tov_pct: 14.2, orb_pct: 30.4, ftr: 0.298,
+        opp_efg_pct: 0.458, opp_tov_pct: 17.8, drb_pct: 71.2, opp_ftr: 0.272,
+        pace: 72.4,
+      },
+      '2022-23': {
+        wins: 28, losses: 7, conf_wins: 15, conf_losses: 5,
+        NET: 6, sos_rank: 14,
+        quad1: { w: 10, l: 6 }, quad2: { w: 9, l: 1 }, quad3: { w: 7, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 117.8, drtg: 96.4, net_rtg: 21.4,
+        efg_pct: 0.544, tov_pct: 14.8, orb_pct: 28.8, ftr: 0.314,
+        opp_efg_pct: 0.452, opp_tov_pct: 17.2, drb_pct: 69.8, opp_ftr: 0.278,
+        pace: 73.2,
+      },
+    },
+  },
+  'gonzaga': {
+    team_id: 'gonzaga',
+    name: 'Gonzaga',
+    abbreviation: 'GONZ',
+    conference: 'WCC',
+    color: '#002967',
+    seasons: ['2022-23', '2023-24'],
+    stats: {
+      '2023-24': {
+        wins: 27, losses: 8, conf_wins: 15, conf_losses: 3,
+        NET: 7, sos_rank: 28,
+        quad1: { w: 8, l: 7 }, quad2: { w: 8, l: 1 }, quad3: { w: 8, l: 0 }, quad4: { w: 3, l: 0 },
+        ortg: 121.2, drtg: 98.4, net_rtg: 22.8,
+        efg_pct: 0.568, tov_pct: 14.6, orb_pct: 28.8, ftr: 0.288,
+        opp_efg_pct: 0.468, opp_tov_pct: 16.4, drb_pct: 70.4, opp_ftr: 0.258,
+        pace: 74.8,
+      },
+      '2022-23': {
+        wins: 31, losses: 6, conf_wins: 17, conf_losses: 1,
+        NET: 3, sos_rank: 32,
+        quad1: { w: 9, l: 5 }, quad2: { w: 9, l: 1 }, quad3: { w: 9, l: 0 }, quad4: { w: 4, l: 0 },
+        ortg: 122.4, drtg: 97.2, net_rtg: 25.2,
+        efg_pct: 0.574, tov_pct: 13.8, orb_pct: 30.4, ftr: 0.278,
+        opp_efg_pct: 0.458, opp_tov_pct: 16.8, drb_pct: 72.8, opp_ftr: 0.244,
+        pace: 75.4,
+      },
+    },
+  },
+  'kansas': {
+    team_id: 'kansas',
+    name: 'Kansas',
+    abbreviation: 'KU',
+    conference: 'Big 12',
+    color: '#0051A5',
+    seasons: ['2022-23', '2023-24'],
+    stats: {
+      '2023-24': {
+        wins: 23, losses: 11, conf_wins: 10, conf_losses: 8,
+        NET: 10, sos_rank: 5,
+        quad1: { w: 8, l: 10 }, quad2: { w: 9, l: 1 }, quad3: { w: 4, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 116.8, drtg: 100.4, net_rtg: 16.4,
+        efg_pct: 0.534, tov_pct: 15.2, orb_pct: 29.8, ftr: 0.308,
+        opp_efg_pct: 0.468, opp_tov_pct: 16.8, drb_pct: 69.4, opp_ftr: 0.282,
+        pace: 70.2,
+      },
+      '2022-23': {
+        wins: 28, losses: 8, conf_wins: 14, conf_losses: 4,
+        NET: 5, sos_rank: 4,
+        quad1: { w: 12, l: 7 }, quad2: { w: 9, l: 1 }, quad3: { w: 5, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 118.4, drtg: 98.2, net_rtg: 20.2,
+        efg_pct: 0.548, tov_pct: 14.8, orb_pct: 31.2, ftr: 0.318,
+        opp_efg_pct: 0.458, opp_tov_pct: 17.4, drb_pct: 71.6, opp_ftr: 0.274,
+        pace: 71.4,
+      },
+    },
+  },
+  'baylor': {
+    team_id: 'baylor',
+    name: 'Baylor',
+    abbreviation: 'BAY',
+    conference: 'Big 12',
+    color: '#003015',
+    seasons: ['2023-24', '2024-25'],
+    stats: {
+      '2024-25': {
+        wins: 19, losses: 10, conf_wins: 10, conf_losses: 8,
+        NET: 22, sos_rank: 8,
+        quad1: { w: 6, l: 9 }, quad2: { w: 7, l: 1 }, quad3: { w: 5, l: 0 }, quad4: { w: 1, l: 0 },
+        ortg: 114.8, drtg: 100.4, net_rtg: 14.4,
+        efg_pct: 0.524, tov_pct: 15.8, orb_pct: 27.4, ftr: 0.328,
+        opp_efg_pct: 0.478, opp_tov_pct: 17.6, drb_pct: 69.8, opp_ftr: 0.278,
+        pace: 68.4,
+      },
+      '2023-24': {
+        wins: 24, losses: 11, conf_wins: 11, conf_losses: 7,
+        NET: 12, sos_rank: 6,
+        quad1: { w: 9, l: 10 }, quad2: { w: 7, l: 1 }, quad3: { w: 6, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 116.4, drtg: 99.8, net_rtg: 16.6,
+        efg_pct: 0.528, tov_pct: 15.2, orb_pct: 28.8, ftr: 0.338,
+        opp_efg_pct: 0.464, opp_tov_pct: 17.8, drb_pct: 70.4, opp_ftr: 0.276,
+        pace: 67.8,
+      },
+    },
+  },
+  'alabama': {
+    team_id: 'alabama',
+    name: 'Alabama',
+    abbreviation: 'ALA',
+    conference: 'SEC',
+    color: '#9E1B32',
+    seasons: ['2022-23', '2023-24'],
+    stats: {
+      '2023-24': {
+        wins: 25, losses: 13, conf_wins: 12, conf_losses: 6,
+        NET: 15, sos_rank: 4,
+        quad1: { w: 6, l: 11 }, quad2: { w: 9, l: 2 }, quad3: { w: 6, l: 0 }, quad4: { w: 4, l: 0 },
+        ortg: 115.8, drtg: 101.2, net_rtg: 14.6,
+        efg_pct: 0.518, tov_pct: 17.4, orb_pct: 31.4, ftr: 0.354,
+        opp_efg_pct: 0.468, opp_tov_pct: 17.2, drb_pct: 68.8, opp_ftr: 0.286,
+        pace: 73.8,
+      },
+      '2022-23': {
+        wins: 21, losses: 13, conf_wins: 10, conf_losses: 8,
+        NET: 19, sos_rank: 6,
+        quad1: { w: 5, l: 12 }, quad2: { w: 8, l: 1 }, quad3: { w: 5, l: 0 }, quad4: { w: 3, l: 0 },
+        ortg: 112.4, drtg: 103.8, net_rtg: 8.6,
+        efg_pct: 0.498, tov_pct: 18.2, orb_pct: 29.8, ftr: 0.368,
+        opp_efg_pct: 0.478, opp_tov_pct: 16.8, drb_pct: 67.4, opp_ftr: 0.292,
+        pace: 74.2,
+      },
+    },
+  },
+  'kentucky': {
+    team_id: 'kentucky',
+    name: 'Kentucky',
+    abbreviation: 'UK',
+    conference: 'SEC',
+    color: '#0033A0',
+    seasons: ['2022-23', '2023-24'],
+    stats: {
+      '2023-24': {
+        wins: 23, losses: 14, conf_wins: 12, conf_losses: 6,
+        NET: 20, sos_rank: 2,
+        quad1: { w: 7, l: 13 }, quad2: { w: 8, l: 1 }, quad3: { w: 5, l: 0 }, quad4: { w: 3, l: 0 },
+        ortg: 113.4, drtg: 101.8, net_rtg: 11.6,
+        efg_pct: 0.512, tov_pct: 15.8, orb_pct: 29.2, ftr: 0.342,
+        opp_efg_pct: 0.474, opp_tov_pct: 16.4, drb_pct: 69.2, opp_ftr: 0.288,
+        pace: 69.4,
+      },
+      '2022-23': {
+        wins: 22, losses: 11, conf_wins: 11, conf_losses: 7,
+        NET: 16, sos_rank: 3,
+        quad1: { w: 8, l: 10 }, quad2: { w: 7, l: 1 }, quad3: { w: 5, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 115.8, drtg: 100.4, net_rtg: 15.4,
+        efg_pct: 0.528, tov_pct: 15.2, orb_pct: 30.8, ftr: 0.338,
+        opp_efg_pct: 0.464, opp_tov_pct: 16.8, drb_pct: 70.4, opp_ftr: 0.278,
+        pace: 70.8,
+      },
+    },
+  },
+  'michigan-st': {
+    team_id: 'michigan-st',
+    name: 'Michigan St.',
+    abbreviation: 'MSU',
+    conference: 'Big Ten',
+    color: '#18453B',
+    seasons: ['2022-23', '2023-24'],
+    stats: {
+      '2023-24': {
+        wins: 20, losses: 14, conf_wins: 10, conf_losses: 10,
+        NET: 25, sos_rank: 16,
+        quad1: { w: 5, l: 13 }, quad2: { w: 8, l: 1 }, quad3: { w: 5, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 110.8, drtg: 99.4, net_rtg: 11.4,
+        efg_pct: 0.504, tov_pct: 16.2, orb_pct: 28.4, ftr: 0.298,
+        opp_efg_pct: 0.468, opp_tov_pct: 16.2, drb_pct: 69.8, opp_ftr: 0.272,
+        pace: 68.2,
+      },
+      '2022-23': {
+        wins: 21, losses: 13, conf_wins: 10, conf_losses: 10,
+        NET: 22, sos_rank: 14,
+        quad1: { w: 6, l: 12 }, quad2: { w: 8, l: 1 }, quad3: { w: 5, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 113.8, drtg: 101.4, net_rtg: 12.4,
+        efg_pct: 0.518, tov_pct: 15.8, orb_pct: 29.8, ftr: 0.314,
+        opp_efg_pct: 0.472, opp_tov_pct: 16.8, drb_pct: 70.2, opp_ftr: 0.278,
+        pace: 69.4,
+      },
+    },
+  },
+  'virginia': {
+    team_id: 'virginia',
+    name: 'Virginia',
+    abbreviation: 'UVA',
+    conference: 'ACC',
+    color: '#232D4B',
+    seasons: ['2022-23', '2023-24'],
+    stats: {
+      '2023-24': {
+        wins: 18, losses: 14, conf_wins: 9, conf_losses: 11,
+        NET: 42, sos_rank: 11,
+        quad1: { w: 3, l: 13 }, quad2: { w: 8, l: 1 }, quad3: { w: 5, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 109.4, drtg: 98.2, net_rtg: 11.2,
+        efg_pct: 0.494, tov_pct: 14.8, orb_pct: 24.8, ftr: 0.274,
+        opp_efg_pct: 0.454, opp_tov_pct: 18.4, drb_pct: 72.8, opp_ftr: 0.252,
+        pace: 63.4,
+      },
+      '2022-23': {
+        wins: 25, losses: 8, conf_wins: 14, conf_losses: 6,
+        NET: 9, sos_rank: 8,
+        quad1: { w: 9, l: 7 }, quad2: { w: 8, l: 1 }, quad3: { w: 6, l: 0 }, quad4: { w: 2, l: 0 },
+        ortg: 112.8, drtg: 95.6, net_rtg: 17.2,
+        efg_pct: 0.508, tov_pct: 14.4, orb_pct: 25.8, ftr: 0.284,
+        opp_efg_pct: 0.448, opp_tov_pct: 18.8, drb_pct: 74.2, opp_ftr: 0.248,
+        pace: 62.8,
+      },
+    },
+  },
+  'rutgers': {
+    team_id: 'rutgers',
+    name: 'Rutgers',
+    abbreviation: 'RUT',
+    conference: 'Big Ten',
+    color: '#CC0033',
+    seasons: ['2023-24', '2024-25'],
+    stats: {
+      '2024-25': {
+        wins: 18, losses: 11, conf_wins: 10, conf_losses: 10,
+        NET: 38, sos_rank: 20,
+        quad1: { w: 4, l: 10 }, quad2: { w: 7, l: 1 }, quad3: { w: 6, l: 0 }, quad4: { w: 1, l: 0 },
+        ortg: 113.4, drtg: 101.8, net_rtg: 11.6,
+        efg_pct: 0.508, tov_pct: 16.8, orb_pct: 27.2, ftr: 0.318,
+        opp_efg_pct: 0.478, opp_tov_pct: 17.2, drb_pct: 68.4, opp_ftr: 0.282,
+        pace: 71.8,
+      },
+      '2023-24': {
+        wins: 16, losses: 16, conf_wins: 8, conf_losses: 12,
+        NET: 58, sos_rank: 18,
+        quad1: { w: 2, l: 15 }, quad2: { w: 6, l: 1 }, quad3: { w: 5, l: 0 }, quad4: { w: 3, l: 0 },
+        ortg: 107.8, drtg: 105.2, net_rtg: 2.6,
+        efg_pct: 0.488, tov_pct: 17.4, orb_pct: 25.8, ftr: 0.324,
+        opp_efg_pct: 0.492, opp_tov_pct: 16.8, drb_pct: 67.2, opp_ftr: 0.288,
+        pace: 70.8,
+      },
+    },
+  },
+};
+
+// ─── Team Helpers ─────────────────────────────────────────────────────────────
+export function buildTeamLeaderboard(season = '2023-24') {
+  return Object.values(TEAM_PROFILES)
+    .filter(t => t.stats[season])
+    .map(t => ({ ...t, ...t.stats[season], season }))
+    .sort((a, b) => b.net_rtg - a.net_rtg);
+}
+
+export function getTeamRoster(teamId, season) {
+  const team = TEAM_PROFILES[teamId];
+  if (!team) return [];
+  return Object.values(PLAYER_PROFILES)
+    .filter(p => p.team === team.name && p.stats[season])
+    .map(p => ({ ...p, ...p.stats[season], season }));
+}
+
+export function getTeamGameLog(teamId, season) {
+  const team = TEAM_PROFILES[teamId];
+  if (!team || !team.stats[season]) return [];
+  const s = team.stats[season];
+  const total = s.wins + s.losses;
+  const gameCount = Math.min(total, 20);
+  const c0 = team.name.charCodeAt(0);
+
+  const opponents = [
+    'Michigan St.', 'Iowa', 'Indiana', 'Northwestern', 'Wisconsin',
+    'Ohio St.', 'Penn St.', 'Minnesota', 'Nebraska', 'Maryland',
+    'Illinois', 'Kansas', 'Houston', 'Tennessee', 'Duke',
+    'Kentucky', 'Arizona', 'Iowa State', 'Gonzaga', 'Baylor',
+  ];
+
+  return Array.from({ length: gameCount }, (_, i) => {
+    const isWin = ((i * 1013 + c0 * 31) % total) < s.wins;
+    const ortg_game = Math.round(s.ortg + Math.sin(i * 5.1) * 9);
+    const drtg_game = Math.round(s.drtg + Math.sin(i * 6.3) * 8);
+    const tScore = isWin
+      ? 72 + Math.round(Math.abs(Math.sin(i * 3.7) * 12))
+      : 68 - Math.round(Math.abs(Math.sin(i * 4.1) * 6));
+    const oScore = isWin
+      ? tScore - Math.round(Math.abs(Math.sin(i * 2.9) * 7) + 2)
+      : tScore + Math.round(Math.abs(Math.sin(i * 3.3) * 9) + 2);
+    return {
+      game: i + 1,
+      date: new Date(2024, 10 + Math.floor(i / 5), (i % 5) * 6 + 2)
+        .toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      opponent: opponents[i % opponents.length],
+      location: ['H', 'A', 'N'][i % 3],
+      result: isWin ? 'W' : 'L',
+      score: `${tScore}–${oScore}`,
+      margin: tScore - oScore,
+      ortg: ortg_game,
+      drtg: drtg_game,
+      net: ortg_game - drtg_game,
+    };
+  });
+}
+
+export function getTeamPercentile(stat, value, season = '2023-24', higherIsBetter = true) {
+  const allTeams = buildTeamLeaderboard(season);
+  const values = allTeams.map(t => t[stat]).filter(v => v != null);
+  if (values.length === 0) return 50;
+  const below = values.filter(v => v < value).length;
+  const raw = Math.round((below / values.length) * 100);
+  return higherIsBetter ? raw : 100 - raw;
+}
+
+export function searchTeams(query) {
+  const q = query.toLowerCase().trim();
+  if (!q) return [];
+  return Object.values(TEAM_PROFILES)
+    .filter(t => t.name.toLowerCase().includes(q) || t.conference.toLowerCase().includes(q))
+    .slice(0, 6);
+}
