@@ -11,7 +11,7 @@ import TeamProfilePage from './pages/TeamProfilePage';
 export default function App() {
   const [currentPage, setCurrentPage] = useState('leaderboard');
   const [pageData, setPageData] = useState(null);
-  const [season, setSeason] = useState('2023-24');
+  const [season, setSeason] = useState('2024-25');
 
   function navigate(page, data = null) {
     setCurrentPage(page);

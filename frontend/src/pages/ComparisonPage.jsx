@@ -292,8 +292,8 @@ function StatComparisonRow({ label, valA, valB, fmtA, fmtB, colorA, colorB, high
 export default function ComparisonPage({ onNavigate }) {
   const [playerA, setPlayerA] = useState(PLAYER_PROFILES['zach-edey'] ?? null);
   const [playerB, setPlayerB] = useState(PLAYER_PROFILES['hunter-dickinson'] ?? null);
-  const [seasonA, setSeasonA] = useState('2023-24');
-  const [seasonB, setSeasonB] = useState('2023-24');
+  const [seasonA, setSeasonA] = useState('2024-25');
+  const [seasonB, setSeasonB] = useState('2024-25');
 
   const statsA = playerA?.stats[seasonA] ?? null;
   const statsB = playerB?.stats[seasonB] ?? null;
